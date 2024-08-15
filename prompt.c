@@ -2,20 +2,30 @@
 #include <stdlib.h>
 
 /**
- * main - aaa
- * Return: aaa
+ * main - display the prompt in the console and
+ *		print the input
+ * Return: 0 or -1 if the function fail
  */
 int main(void)
 {
 	size_t n = 0;
-	char *buf = NULL;
+	ssize_t gl_return; /* return value of getline */
+	char *buffer = NULL;
 
-	buf = malloc(sizeof(char) * n);
-	printf("$ ");
-	getline(&buf, &n, stdin);
-	printf("%s", buf);
+	while (1)
+	{
+		printf("(HBTN-shell)$ ");
+		gl_return = getline(&buffer, &n, stdin);
+		if (gl_return == -1)
+		{
+			/*fail case if getline failed, EOF reached or User use Ctrl+D*/
+			printf("HBTN-shell is closing...\n");
+			return (-1);
+		}
+		printf("%s", buffer);
+	}
 
-	free(buf);
+	free(buffer);
 
 	return (0);
 }
